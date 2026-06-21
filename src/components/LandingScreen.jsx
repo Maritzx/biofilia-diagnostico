@@ -4,7 +4,7 @@ export default function LandingScreen({ onStart }) {
   return (
     <div className="min-h-dvh bg-cream flex flex-col">
       {/* Header */}
-      <header className="px-6 pt-8 pb-4">
+      <header className="p-0">
         <Logo />
       </header>
 

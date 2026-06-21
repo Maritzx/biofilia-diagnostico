@@ -24,5 +24,7 @@ export async function saveLead({ nombre, email, organizacion, puntaje, nivel }) 
       created_at: new Date().toISOString(),
     },
   ])
+
+  if (error) console.error('Supabase error:', error)
   return { error }
 }

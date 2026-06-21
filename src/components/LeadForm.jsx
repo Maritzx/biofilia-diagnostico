@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import Logo from './Logo'
 import { saveLead } from '../lib/supabase'
 
@@ -23,6 +24,22 @@ export default function LeadForm({ score, level, onSubmit }) {
       puntaje: score,
       nivel: level.name,
     })
+
+    // Send email notification (non-blocking — no falla si el email no llega)
+    const serviceId  = import.meta.env.VITE_EMAILJS_SERVICE_ID
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const publicKey  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+    if (serviceId && templateId && publicKey) {
+      emailjs.send(serviceId, templateId, {
+        nombre:       form.nombre,
+        email:        form.email,
+        organizacion: form.organizacion,
+        nivel:        level.name,
+        puntaje:      score,
+        porcentaje:   Math.round((score / 33) * 100),
+      }, publicKey).catch((err) => console.warn('EmailJS error:', err))
+    }
 
     setLoading(false)
 
