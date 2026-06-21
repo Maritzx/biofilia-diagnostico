@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F5F0E8;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .gradient-result {
+    background: linear-gradient(135deg, #C96B3A 0%, #0D5C4A 100%);
+  }
+  .gradient-cta {
+    background: linear-gradient(135deg, #0D5C4A 0%, #C96B3A 100%);
+  }
+}
+
+/* Smooth page transitions */
+.fade-in {
+  animation: fadeIn 0.35s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { animation: none; }
+}
