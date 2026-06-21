@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { questions, getLevel } from './data/questions'
 import LandingScreen from './components/LandingScreen'
 import QuestionScreen from './components/QuestionScreen'
+import LeadForm from './components/LeadForm'
 import ResultScreen from './components/ResultScreen'
 
-const SCREEN = { LANDING: 'landing', QUIZ: 'quiz', RESULT: 'result' }
+const SCREEN = { LANDING: 'landing', QUIZ: 'quiz', FORM: 'form', RESULT: 'result' }
 
 export default function App() {
   const [screen, setScreen] = useState(SCREEN.LANDING)
@@ -33,12 +34,16 @@ export default function App() {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((i) => i + 1)
     } else {
-      setScreen(SCREEN.RESULT)
+      setScreen(SCREEN.FORM)  // ← va al form antes del resultado
     }
   }
 
   function handlePrev() {
     if (currentIndex > 0) setCurrentIndex((i) => i - 1)
+  }
+
+  function handleFormSubmit() {
+    setScreen(SCREEN.RESULT)
   }
 
   function handleRestart() {
@@ -47,9 +52,7 @@ export default function App() {
     setAnswers(Array(questions.length).fill(null))
   }
 
-  if (screen === SCREEN.LANDING) {
-    return <LandingScreen onStart={handleStart} />
-  }
+  if (screen === SCREEN.LANDING) return <LandingScreen onStart={handleStart} />
 
   if (screen === SCREEN.QUIZ) {
     return (
@@ -63,6 +66,10 @@ export default function App() {
         onPrev={handlePrev}
       />
     )
+  }
+
+  if (screen === SCREEN.FORM) {
+    return <LeadForm score={score} level={level} onSubmit={handleFormSubmit} />
   }
 
   return <ResultScreen score={score} level={level} onRestart={handleRestart} />
